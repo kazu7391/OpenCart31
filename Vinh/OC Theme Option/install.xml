@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <code>oc_theme_option</code>
+    <name>OC Theme Option</name>
+    <version>3.x</version>
+    <author>Plaza Theme</author>
+
+    <!-- Menu Left in Admin -->
+    <file path="admin/controller/common/column_left.php">
+        <operation>
+            <search ><![CDATA[$sale = array();]]></search>
+            <add position="before"><![CDATA[
+            // OC Menu Items
+            $this->load->language('ocadminmenu/ocadminmenu');
+
+            $ocadmin_menu = array();
+
+            if($this->user->hasPermission('access', 'extension/module/octhemeoption')) {
+                $ocadmin_menu[] = array(
+                    'name'     => $this->language->get('text_theme_config'),
+                    'href'     => $this->url->link('extension/module/octhemeoption', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()
+                );
+            }
+
+            if($this->user->hasPermission('access', 'catalog/occategorythumbnail')) {
+                $ocadmin_menu[] = array(
+                    'name'     => $this->language->get('text_category_thumbnail'),
+                    'href'     => $this->url->link('catalog/occategorythumbnail', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()
+                );
+            }
+
+            if($this->user->hasPermission('access', 'extension/module/ocmegamenu')) {
+                $ocadmin_menu[] = array(
+                    'name'     => $this->language->get('text_advance_menu'),
+                    'href'     => $this->url->link('extension/module/ocmegamenu/menuList', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()
+                );
+            }
+
+            // Blog
+            $blog = array();
+
+            if ($this->user->hasPermission('access', 'blog/article')) {
+                $blog[] = array(
+                    'name'     => $this->language->get('text_article'),
+                    'href'     => $this->url->link('blog/article', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()
+                );
+            }
+
+            if ($this->user->hasPermission('access', 'blog/articlelist')) {
+                $blog[] = array(
+                    'name'     => $this->language->get('text_article_list'),
+                    'href'     => $this->url->link('blog/articlelist', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()
+                );
+            }
+
+            if ($this->user->hasPermission('access', 'blog/config')) {
+                $blog[] = array(
+                    'name'     => $this->language->get('text_blog_config'),
+                    'href'     => $this->url->link('blog/config', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()
+                );
+            }
+
+            if($blog) {
+                $ocadmin_menu[] = array(
+                    'name'      => $this->language->get('text_blog'),
+                    'href'      => '',
+                    'children'  => $blog
+                );
+            }
+
+            if($this->user->hasPermission('access', 'extension/module/occmsblock')) {
+                $ocadmin_menu[] = array(
+                    'name'     => $this->language->get('text_cms_block'),
+                    'href'     => $this->url->link('extension/module/occmsblock/cmslist', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()
+                );
+            }
+
+            if($this->user->hasPermission('access', 'extension/module/ocslideshow')) {
+                $ocadmin_menu[] = array(
+                    'name'     => $this->language->get('text_slideshow'),
+                    'href'     => $this->url->link('extension/module/ocslideshow/form', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()
+                );
+            }
+
+            if($this->user->hasPermission('access', 'catalog/octestimonial')) {
+                $ocadmin_menu[] = array(
+                    'name'     => $this->language->get('text_testimonial'),
+                    'href'     => $this->url->link('catalog/octestimonial', 'user_token=' . $this->session->data['user_token'], true),
+                    'children' => array()
+                );
+            }
+            
+            $data['menus'][] = array(
+                'id'       => 'menu-panel',
+                'icon'     => 'fa-empire',
+                'name'     => $this->language->get('text_theme_menu'),
+                'href'     => '',
+                'children' => $ocadmin_menu
+            );
+            ]]></add>
+        </operation>
+    </file>
+
+    <!-- PRODUCT ROTATOR IMAGE -->
+    <file path="admin/controller/catalog/product.php">
+        <operation>
+            <search ><![CDATA[public function index() {]]></search>
+            <add position="after"><![CDATA[
+        /* Product Rotator */
+        $this->load->model('catalog/ocproductrotator');
+        
+        $this->model_catalog_ocproductrotator->installProductRotator();
+        /* End Product Rotator */
+            ]]></add>
+        </operation>
+        <operation>
+            <search ><![CDATA[$this->load->language('catalog/product');]]></search>
+            <add position="before"><![CDATA[
+                /* Product Rotator */
+                $this->load->language('extension/module/ocproductrotator');
+            ]]></add>
+        </operation>
+        <operation>
+            <search ><![CDATA['sort_order' => $product_image['sort_order']]]></search>
+            <add position="before"><![CDATA[
+                /* Product Rotator */
+                'is_rotator' => $product_image['is_rotator'],
+            ]]></add>
+        </operation>
+    </file>
+
+    <file path="admin/model/catalog/product.php">
+        <operation>
+            <search><![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "product_image SET product_id = '" . (int)$product_id . "', image = '" . $this->db->escape($product_image['image']) . "', sort_order = '" . (int)$product_image['sort_order'] . "'");]]></search>
+            <add position="replace">
+                <![CDATA[
+                    /* Product Rotator */
+                    $this->db->query("INSERT INTO " . DB_PREFIX . "product_image SET product_id = '" . (int)$product_id . "', image = '" . $this->db->escape($product_image['image']) . "', sort_order = '" . (int)$product_image['sort_order'] . "', is_rotator = '" . (int)$product_image['is_rotator'] . "'");
+                ]]>
+            </add>
+        </operation>
+    </file>
+
+    <file path="admin/view/template/catalog/product_form.twig">
+        <operation>
+            <search><![CDATA[<td class="text-right">{{ entry_sort_order }}</td>]]></search>
+            <add position="after">
+                <![CDATA[
+                    <!-- Product Rotator -->
+                    <td class="text-center">{{ entry_is_rotator }}</td>
+                ]]>
+            </add>
+        </operation>
+        <operation>
+            <search><![CDATA[<td class="text-left"><button type="button" onclick="$('#image-row{{ image_row }}').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>]]></search>
+            <add position="before">
+                <![CDATA[
+                    <!-- Product Rotator -->
+                    <td class="text-center">
+                      <select name="product_image[{{ image_row }}][is_rotator]" class="form-control rotator-select">
+                        {% if product_image.is_rotator and (product_image.is_rotator == 1) %}
+                        <option value="1" selected="selected">Yes</option>
+                        <option value="0">No</option>
+                        {% else %}
+                        <option value="1">Yes</option>
+                        <option value="0" selected="selected">No</option>
+                        {% endif %}
+                      </select>
+                    </td>
+                    <!-- End -->
+                ]]>
+            </add>
+        </operation>
+        <operation>
+            <search><![CDATA[function addImage() {]]></search>
+            <add position="before">
+                <![CDATA[
+                    //Product Rotator
+                    $('#tab-image tfoot td:first').attr('colspan', 3);
+                    $('.rotator-select').change(function() {
+                      var value = $(this).val();
+                      if(value == 1) {
+                        $('.rotator-select').val(0);
+                        $(this).val(1);
+                      }
+                    });
+                    //End
+                ]]>
+            </add>
+        </operation>
+        <operation>
+            <search><![CDATA[$('#images tbody').append(html);]]></search>
+            <add position="after">
+                <![CDATA[
+                    //Product Rotator
+                    $('.rotator-select').change(function() {
+                      var value = $(this).val();
+                      if(value == 1) {
+                        $('.rotator-select').val(0);
+                        $(this).val(1);
+                      }
+                    });
+                    //End
+                ]]>
+            </add>
+        </operation>
+        <operation>
+            <search><![CDATA[html += '  <td class="text-left"><button type="button" onclick="$(\'#image-row' + image_row  + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';]]></search>
+            <add position="before">
+                <![CDATA[
+                    //Product Rotator
+                    html += ' <td class="text-center">';
+                    html += '   <select name="product_image[' + image_row + '][is_rotator]" class="form-control rotator-select">';
+                    html += '     <option value="1">{{ text_yes }}</option>';
+                    html += '     <option value="0" selected="selected">{{ text_no }}</option>';
+                    html += '   </select>';
+                    html += ' </td>';
+                    //End
+                ]]>
+            </add>
+        </operation>
+    </file>
+    
+    <!-- THEME OPTION -->
+    <file path="catalog/controller/common/header.php">
+        <operation>
+            <search><![CDATA[return $this->load->view('common/header', $data);]]></search>
+            <add position="before"><![CDATA[
+        $data['store_id'] = $this->config->get('config_store_id');
+        $data['theme_option_status'] = $this->config->get('module_octhemeoption_status');
+        $data['a_tag'] = $this->config->get('module_octhemeoption_a_tag');
+        $data['header_tag'] = $this->config->get('module_octhemeoption_header_tag');
+        $data['body_css'] = $this->config->get('module_octhemeoption_body');
+            ]]></add>
+        </operation>
+    </file>
+
+    <!-- Layouts Position -->
+    <file path="admin/controller/design/layout.php">
+        <operation>
+            <search><![CDATA[$this->response->setOutput($this->load->view('design/layout_form', $data));]]></search>
+            <add position="replace"><![CDATA[
+                $this->response->setOutput($this->load->view('design/layout_plaza_form', $data));
+            ]]></add>
+        </operation>
+    </file>
+</modification>

@@ -1,0 +1,44 @@
+<div class="testimonial-container">
+	<div class="block-title">
+		<strong>
+			<span>
+				{{ title }}
+			</span>
+		</strong>
+	</div>
+		<div class="block-content">
+			<div id="slides">
+			{% for testimonial in testimonials %}
+			
+					<div class="testimonial-content">
+						<div class="testimonial-images pull-left">
+							<img src="{{ testimonial['image'] }}" alt="{{ testimonial['customer_name'] }}">
+						</div>
+						<div class="testimonial-box media-body">
+							<span class="testimonial-author">{{ testimonial['customer_name'] }}</span>
+							<em>-</em>
+							<a href="{{ more }}"></a>
+						</div>
+					</div><!--testimonial-content-->
+				
+			{% endfor %}
+			</div>
+		</div><!--block-content-->
+</div><!--testimonial-container-->
+
+						
+<script type="text/javascript">
+    $("#slides").owlCarousel({
+		autoPlay : {% if slide['auto'] %} {{ slide['auto'] }} {% else %} false {% endif %},
+		items : {{ slide['items'] }},
+		itemsDesktop : [1199,1],
+		itemsDesktopSmall : [980,1],
+		itemsTablet: [768,1],
+		itemsMobile : [479,1],
+		slideSpeed : {{ slide['speed'] }},
+		paginationSpeed : {{ slide['speed'] }},
+		rewindSpeed : {{ slide['speed'] }},
+		navigation : {% if slide['navigation'] %} {{ slide['navigation'] }}  {% else %} false {% endif %},
+		pagination :{% if slide['pagination'] %} {{ slide['pagination'] }} {% else %} false {% endif %},
+    });
+</script>

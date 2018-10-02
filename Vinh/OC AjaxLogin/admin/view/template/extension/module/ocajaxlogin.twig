@@ -1,0 +1,71 @@
+{{ header }}{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="float-right">
+                <button type="submit" form="form-ocajaxlogin" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fas fa-save"></i></button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-light"><i class="fas fa-reply"></i></a></div>
+            <h1>{{ heading_title }}</h1>
+            <ul class="breadcrumb">
+                {% for breadcrumb in breadcrumbs %}
+                <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error_warning %}
+        <div class="alert alert-danger alert-dismissible"><i class="fas fa-exclamation-circle"></i> {{ error_warning }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        {% endif %}
+        <div class="card">
+            <div class="card-header"><i class="fas fa-pencil-alt"></i> {{ text_edit }}</div>
+            <div class="card-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-ocajaxlogin">
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="input-status">{{ entry_status }}</label>
+                        <div class="col-sm-6">
+                            <select name="module_ocajaxlogin_status" id="input-status" class="form-control">
+                                {% if module_ocajaxlogin_status %}
+                                <option value="1" selected="selected">{{ text_enabled }}</option>
+                                <option value="0">{{ text_disabled }}</option>
+                                {% else %}
+                                <option value="1">{{ text_enabled }}</option>
+                                <option value="0" selected="selected">{{ text_disabled }}</option>
+                                {% endif %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="input-redirect-status">{{ entry_redirect_status }}</label>
+                        <div class="col-sm-6">
+                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                {% if module_ocajaxlogin_redirect_status %}
+                                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ocajaxlogin_redirect_status" value="1" checked="checked"/> {{ text_yes }}</label>
+                                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ocajaxlogin_redirect_status" value="0"/> {{ text_no }}</label>
+                                {% else %}
+                                    <label class="btn btn-outline-secondary"><input type="radio" name="module_ocajaxlogin_redirect_status" value="1"/> {{ text_yes }}</label>
+                                    <label class="btn btn-outline-secondary active"><input type="radio" name="module_ocajaxlogin_redirect_status" value="0" checked="checked"/> {{ text_no }}</label>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 col-form-label" for="input-image">{{ entry_image }}</label>
+                        <div class="col-sm-6">
+                            <div class="card image">
+                                <img src="{{ thumb }}" alt="" title="" id="thumb-image" data-placeholder="{{ placeholder }}" class="card-img-top"/> <input type="hidden" name="module_ocajaxlogin_loader_img" value="{{ module_ocajaxlogin_loader_img }}" id="input-image"/>
+                                <div class="card-body">
+                                    <button type="button" data-toggle="image" data-target="input-image" data-thumb="thumb-image" class="btn btn-primary btn-sm btn-block"><i class="fas fa-pencil-alt"></i> {{ button_edit }}</button>
+                                    <button type="button" data-toggle="clear" data-target="input-image" data-thumb="thumb-image" class="btn btn-warning btn-sm btn-block"><i class="fas fa-trash-alt"></i> {{ button_clear }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{ footer }}

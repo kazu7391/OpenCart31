@@ -1,0 +1,61 @@
+<div class="featured-cat-thumb">
+<div class="featured-categories-container">
+<div class="featured-categories-slider tt-title"><h2>{{ heading_title }}</h2></div>
+	{% set count, rows = 0, config_slide.f_rows %}
+	{% if not rows %}
+		{% set rows = 1 %}
+	{% endif %}
+	<div class="owl-featured-categories">
+		{% for category in categories %}
+			{% if count % rows == 0 %}
+			<div class="row_items">
+			{% endif %}
+				<div class="fcategory-content">
+					<div class="content-thumb">
+						<h2 class="name"><a href="{{ category.href }}">{{ category.name }}</a></h2>
+						{% if config_slide.show_description %}
+							<p class="dec">{{ category.description }}</p>
+						{% endif %}
+						{% if config_slide.show_sub_category %}
+							{% set number_sub = config_slide.number_sub %}
+							{% if category.children %}
+								{% set sub_count = 0 %}
+								<ul class="sub-featured-categories">
+									{% for subcate in category.children %}
+										{% if sub_count < number_sub %}
+										<li><a href="{{ subcate.href }}">{{ subcate.name }}</a></li>
+										{% endif %}
+										{% set sub_count = sub_count + 1 %}
+									{% endfor %}
+								</ul>
+							{% endif %}
+						{% endif %}
+					</div>
+					<a href="{{ category.href }}"><img src="{{ category.homethumb_image }}" alt="" /></a>
+				</div>
+			{% if (count % rows == 0) or (count == categories|length) %}
+			</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>
+</div>
+{% if config_slide.use_slider %}
+<script type="text/javascript">
+$(document).ready(function() { 
+  $(".owl-featured-categories").owlCarousel({
+	  slideSpeed: {% if config_slide.f_speed %} {{ config_slide.f_speed }} {% else %} 3000 {% endif %},
+      items : {% if config_slide.items %} {{ config_slide.items }} {% else %} 3 {% endif %},
+	  autoPlay : {% if config_slide.autoplay %} true {% else %} false {% endif %},
+	  navigation : {% if config_slide.f_show_nextback %} true {% else %} false {% endif %},
+	  paginationNumbers : true,
+	  pagination : {% if config_slide.f_show_ctr %} true {% else %} false {% endif %},
+	  stopOnHover : false,
+	itemsDesktop : [1199,3], 
+    itemsDesktopSmall : [900,3], // betweem 900px and 601px
+    itemsTablet: [768,2], //2 items between 600 and 0
+    itemsMobile : [480,1] // itemsMobile disabled - inherit from itemsTablet option
+  });
+});
+</script>
+{% endif %}

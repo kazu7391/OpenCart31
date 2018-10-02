@@ -1,0 +1,27 @@
+{% if ocquickview_status %}
+<div id="quickview-content">
+    <!-- Load quickview content into here -->
+</div>
+
+<div id="quickview-bg-block">
+    <!-- Quick View deep background -->
+</div>
+
+<div class="quickview-load-img">
+    <img src="{{ ocquickview_loader_img }}" alt="" />
+</div>
+
+<div class="lightbox-container lbo-quickview"></div>
+
+<input type="hidden" id="qv-text-close" value="{{ text_close }}" />
+
+<script type="text/javascript">
+    $('#quickview-bg-block').click(function () {
+        ocquickview.closeQVFrame();
+    })
+
+    if($('#product-product').length) {
+        $('.lightbox-container.lbo-quickview').remove();
+    }
+</script>
+{% endif %}

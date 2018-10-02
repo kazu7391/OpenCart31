@@ -1,0 +1,9 @@
+Change file: \catalog\view\theme\default\template\common\header.twig
+
+<ul class="dropdown-menu dropdown-menu-right">  			------>  	<ul class="dropdown-menu dropdown-menu-right ul-account">
+
+<li><a href="{{ logout }}">{{ text_logout }}</a></li>		------>		<li><a id="a-logout-link" href="{{ logout }}">{{ text_logout }}</a></li>
+
+<li><a href="{{ register }}">{{ text_register }}</a></li>  	------>    	<li><a id="a-register-link" href="{{ register }}">{{ text_register }}</a></li>
+
+<li><a href="{{ login }}">{{ text_login }}</a></li>  		------>  	<li><a id="a-login-link" href="{{ login }}">{{ text_login }}</a></li>

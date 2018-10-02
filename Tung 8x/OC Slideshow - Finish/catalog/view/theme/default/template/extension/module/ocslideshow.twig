@@ -1,0 +1,88 @@
+<div class="banner7">
+	<div class= "oc-banner7-container">
+		<div class="flexslider oc-nivoslider">
+			<div class="oc-loading"></div>
+			<div id="oc-inivoslider1" class="nivoSlider">
+
+                {% set config = slide_setting[0] %}
+                {% set i=1 %}
+                {% for s in ocslideshows %}
+                    {% set i=i+1 %}
+					<img style="display: none;" src="{{ s['image'] }}" alt="" title="#banner7-caption{{ i }}"  />
+                {% endfor %}
+
+			</div>
+
+            {% set i=1 %}
+            {% for s in ocslideshows %}
+                {% set i=i+1 %}
+				<div id="banner7-caption{{ i }}" class="banner7-caption nivo-html-caption nivo-caption move-slides-effect" data-class="slide-movetype{{ s['type'] }}">
+					<div class="banner7-small_image">
+						<img src="{{ s['small_image'] }}" alt="" title="small" />
+					</div>
+					<div class="banner7-title">
+                        {%  if s['title'] and s['title'] != ""  %}
+							<h3>{{ s['title'] }}</h3>
+                        {% endif %}
+					</div>
+					<div class="sub-title">
+                        {%  if s['sub_title'] and s['sub_title'] != "" %}
+							<h3>{{ s['sub_title'] }}</h3>
+                        {% endif %}
+					</div>
+					<div class="banner7-des">
+                        {{ s['description'] }}
+					</div>
+                    {% if s['link'] %}
+						<div class="banner7-readmore">
+							<a href="{{ s['link'] }}" title="{{ text_readmore }}">{{ text_readmore }}</a>
+						</div>
+                    {% endif %}
+				</div>
+            {% endfor %}
+			<script type="text/javascript">
+                $(window).load(function() {
+                    $('#oc-inivoslider1').nivoSlider();
+                    $('#oc-inivoslider1').nivoSlider({
+                        effect:  {% if config['effect'] %}  "{{ config['effect'] }}" {% else %}   'random'  {% endif %} ,
+                        slices: 15,
+                        boxCols: 8,
+                        boxRows: 4,
+                        manualAdvance: {% if config['auto'] and config['auto'] == 1 %} false {% else %}   true  {% endif %} ,
+                        animSpeed:500,
+                        pauseTime: {% if config['delay'] %}  {{ config['delay'] }} {% else %}   3000  {% endif %} ,
+                        startSlide: 0,
+                        controlNav:  {% if config['contrl'] and config['contrl'] == 1 %} true {% else %}   false  {% endif %} ,
+                        directionNav:  {% if config['nextback'] and config['nextback'] == 1 %} true {% else %}   false  {% endif %} ,
+                        controlNavThumbs: false,
+                        pauseOnHover:  {% if config['hover'] and config['hover'] == 1 %} true {% else %}   false  {% endif %} ,
+                        prevText: 'Prev',
+                        nextText: 'Next',
+                        beforeChange: function() {
+                            var nivo_image = $('#oc-inivoslider .nivo-caption .banner7-small_image img').attr('src');
+                            $('#oc-inivoslider .nivo-caption').hide();
+                            $('.move-slides-effect img').each(function() {
+                                var small_image = $(this).attr('src');
+                                if(nivo_image == small_image) {
+                                    var move_class = $(this).closest('.move-slides-effect').data('class');
+                                    $('#oc-inivoslider .nivo-caption').removeClass().addClass('nivo-caption').addClass(move_class);
+                                }
+                            });
+                        },
+                        afterLoad: function(){
+                            $('.oc-loading').css("display","none");
+                            var nivo_image = $('.nivo-caption .banner7-small_image img').attr('src');
+                            $('.move-slides-effect img').each(function() {
+                                var small_image = $(this).attr('src');
+                                if(nivo_image == small_image) {
+                                    var move_class = $(this).closest('.move-slides-effect').data('class');
+                                    $('#oc-inivoslider .nivo-caption').removeClass().addClass('nivo-caption').addClass(move_class);
+                                }
+                            });
+                        }
+                    });
+                });
+			</script>
+		</div>
+	</div>
+</div>

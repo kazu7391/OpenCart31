@@ -1,0 +1,23 @@
+<modification>
+    <name>OC Search Category by Plaza Themes</name>
+	<version>3.0</version>
+	<link>http://www.plazathemes.com/</link>
+	<author>Plaza Theme</author>
+	<code>search_category</code>
+
+	<file path="catalog/controller/common/header.php">
+		<operation>
+			<search ><![CDATA[$data['search'] = $this->load->controller('common/search');]]></search>
+			<add position="replace"><![CDATA[
+				/* Edit for Search Category Module by OCMod */
+				$module_status = $this->config->get('module_ocsearchcategory_status');
+				if($module_status) {
+					$data['search'] = $this->load->controller('extension/module/ocsearchcategory');
+				} else {
+					$data['search'] = $this->load->controller('common/search');
+				}
+				/* End Code */
+			]]></add>
+		</operation>
+	</file>	
+</modification>

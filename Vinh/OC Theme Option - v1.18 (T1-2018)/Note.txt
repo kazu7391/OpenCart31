@@ -1,0 +1,95 @@
+--------------------------------------------------------------
+
+***** OC THEME OPTION v1.18 (NEWEST) (Jan 2018/ T1-2018) *******
+
+-------------------------------------------------------------
+
+** Update PRODUCT PAGE & CATEGORY PAGE & MEGA MENU
+
+Install OCMOD: Admin -> Extensions -> Installer -> Install "octhemeoption.ocmod.zip" -> Refresh Modification
+
+-------------------------------------------------------------
+
+** PRODUCT PAGE & CATEGORY PAGE:
+- Product Page:
+  + Them Color Swatches & Zoom. (xoa tat ca zoom cu di)
+
+- Category Page:
+  + Them chuc nang cho Grid va List (Custom View)
+  + Xoa bo module Layered Navigation va tich hop vao Theme Option
+  + Them Color Swatches va Rotate Image
+
+- Da chinh san 1 so file template (.twig) -> copy vao theme va lam tiep tuy theo theme
+  + \catalog\view\theme\default\template\common\header.twig
+  + \catalog\view\theme\default\template\common\column_left.twig
+  + \catalog\view\theme\default\template\common\column_right.twig
+  + \catalog\view\theme\default\template\product\category.twig
+  + \catalog\view\theme\default\template\product\product.twig
+  + \catalog\view\theme\default\template\product\ocfilter (3 files) (cac file danh cho Layered Navigation)
+  + \catalog\view\theme\default\template\product\ocquickview (2 files) (cac file danh cho Quick View)
+
+- Hau het cac chuc nang trong Product Page va Category Page da co san, chi can css
+
+---------------------------------
+
+** DATABASE: Cac file .sql de import bat buoc phai dung prefix la "oc_"
+
+---------------------------------
+
+** CATALOG MODE (CHI DANH CHO MODULE): Check dieu kien show price va show add to cart: 
+- File Controller:  $store_id = $this->config->get('config_store_id');
+
+                    $data['use_catalog'] = (int) $this->config->get('module_octhemeoption_catalog')[$store_id];
+
+- File Twig:        {% if use_catalog %}
+                    // code
+                    {% endif %}
+
+---------------------------------
+
+** QUICK VIEW (CHI DANH CHO MODULE):
+- Khong can them css va script trong file header.
+
+- Check dieu kien su dung quickview o file Controller:
+
+  $store_id = $this->config->get('config_store_id');
+  $data['use_quickview'] = (int) $this->config->get('module_octhemeoption_quickview')[$store_id];
+
+- Them nut button quickview cho san pham vao module can su dung (LUU Y Translate Text Quickview)
+{% if use_quickview %}
+    <button type="button" data-toggle="tooltip" title="Quick View" onclick="ocquickview.ajaxView('{{ product.href }}')"><i class="fa fa-search-plus"></i></button>
+{% endif %}
+
+---------------------------------
+
+** ROTATOR IMAGE (CHI DANH CHO MODULE):
+- Check dieu kien su dung rotator image:  $this->config->get('module_octhemeoption_rotator')[$store_id]
+
+- To show product rotator image, add these sample code lines into controller:
+/* Product Rotator */
+$store_id = $this->config->get('config_store_id');
+
+$product_rotator_status = (int) $this->config->get('module_octhemeoption_rotator')[$store_id];
+if($product_rotator_status == 1) {
+  $this->load->model('catalog/ocproductrotator');
+  $this->load->model('tool/image');
+
+  $product_id = product id;
+  $product_rotator_image = $this->model_catalog_ocproductrotator->getProductRotatorImage($product_id);
+
+  if($product_rotator_image) {
+    $rotator_image_width = tuy vao module thi su dung width cho dung
+    $rotator_image_height = tuy vao module thi su dung height cho dung
+    $data['rotator_image'] = $this->model_tool_image->resize($product_rotator_image, $rotator_image_width, $rotator_image_height);  
+  } else {
+    $data['rotator_image'] = false;
+  } 
+} else {
+  $data['rotator_image'] = false;       
+}
+/* End Product Rotator */
+
+- After that, in twig file, use this sample code to show rotator image:
+<img src="{{ rotator_image }}" />
+
+------------------------------------
