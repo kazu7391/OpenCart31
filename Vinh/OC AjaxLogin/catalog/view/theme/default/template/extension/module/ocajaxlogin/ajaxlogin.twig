@@ -1,20 +1,20 @@
-<div class="ajax-container">
-    <div class="login-form-content">
+<div class="ajax-container card">
+    <div class="login-form-content card-body">
         <h2>{{ text_returning_customer }}</h2>
         <p><strong>{{ text_i_am_returning_customer }}</strong></p>
         <form action="#" method="post" id="ajax-login-form" enctype="multipart/form-data">
             <div class="form-group">
-                <label class="control-label" for="input-email">{{ entry_email }}</label>
+                <label class="col-form-label" for="input-email">{{ entry_email }}</label>
                 <input type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
             </div>
             <div class="form-group">
-                <label class="control-label" for="input-password">{{ entry_password }}</label>
+                <label class="col-form-label" for="input-password">{{ entry_password }}</label>
                 <input type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control" />
                 <a class="forgotten" href="{{ forgotten }}">{{ text_forgotten }}</a>
             </div>
             <div class="action">
-                <button class="button" type="button" onclick="ocajaxlogin.loginAction(document.getElementById('input-email').value, document.getElementById('input-password').value)"><span>{{ button_login }}</span></button>
-                <button class="button" type="button" onclick="ocajaxlogin.appendRegisterForm()"><span>{{ button_register_link }}</span></button>
+                <button class="button btn btn-primary" type="button" onclick="ocajaxlogin.loginAction(document.getElementById('input-email').value, document.getElementById('input-password').value)"><span>{{ button_login }}</span></button>
+                <button class="button btn btn-light" type="button" onclick="ocajaxlogin.appendRegisterForm()"><span>{{ button_register_link }}</span></button>
                 <img class="ajax-load-img" alt="" src="{{ loader_img }}" width="30" height="30" />
             </div>
             {% if redirect %}

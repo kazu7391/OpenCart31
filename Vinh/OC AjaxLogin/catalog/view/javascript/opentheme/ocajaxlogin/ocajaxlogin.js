@@ -28,17 +28,18 @@ var ocajaxlogin = {
                         location = json['redirect'];
                     } else {
                         // Update account top links
-                        $('.ul-account').load('index.php?route=extension/module/ajaxlogin/toheaderhtml #top-links ul.ul-account li');
+                        $('.ul-account').load('index.php?route=extension/module/ajaxlogin/toheaderhtml div.ul-account a');
 
                         // Update wishlish in top links
                         $('#wishlist-total span').html(json['wishlist_total']);
                         $('#wishlist-total').attr('title', json['wishlist_total']);
 
                         // Update cart total
-                        $('#cart-total').html(json['cart_total']);
-                        $('#cart > ul').load('index.php?route=common/cart/info ul li');
+                        $('#cart').parent().load('index.php?route=common/cart/info');
 
-                        $('body').before('<div class="alert alert-success"><i class="fa fa-check-circle"></i> ' + json['success_message'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                        $('#alert-box').append('<div class="alert alert-success alert-dismissible">' + json['success_message'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+
+                        $('#alert-box').addClass('open');
                     }
                     ocajaxlogin.closeForm();
                     $('.ajax-load-img').hide();
@@ -140,15 +141,14 @@ var ocajaxlogin = {
                     location = json['redirect'];
                 } else {
                     // Update account top links
-                    $('.ul-account').load('index.php?route=extension/module/ajaxlogin/toheaderhtml #top-links ul.ul-account li');
+                    $('.ul-account').load('index.php?route=extension/module/ajaxlogin/toheaderhtml div.ul-account a');
 
                     // Update wishlish in top links
                     $('#wishlist-total span').html(json['wishlist_total']);
                     $('#wishlist-total').attr('title', json['wishlist_total']);
 
                     // Update cart total
-                    $('#cart-total').html(json['cart_total']);
-                    $('#cart > ul').load('index.php?route=common/cart/info ul li');
+                    $('#cart').parent().load('index.php?route=common/cart/info');
                 }
                 $('#ajax-loader').hide();
                 ocajaxlogin.appendLogoutSuccess();

@@ -550,9 +550,9 @@ var builder = {
         html = '<div class="layout-module-info moveable">';
         html += '	<div class="top">';
         html += '		<div class="module-info">';
-        html += '			<p>' + name + '</p>';
-        html += '		    <a class="btn-edit" href="javascript:void(0);" onclick="loadModule(\'' + url + '\')"></a>';
-        html += '			<a class="btn-remove" href="javascript:void(0);" onclick="builder.removeModule($(this))"></a>';
+        html += '			<p><i class="fa fa-cubes"></i>' + name + '</p>';
+        html += '		    <a class="btn-edit" href="javascript:void(0);" onclick="loadModule(\'' + url + '\')"><i class="fa fa-cogs"></i></a>';
+        html += '			<a class="btn-remove" href="javascript:void(0);" onclick="builder.removeModule($(this))"><i class="fa fa-times-circle"></i></a>';
         html += '		</div>';
         html += '	</div>';
         html += '	<input type="hidden" class="module-in-main-row" value="' + row_pos +'" />';
