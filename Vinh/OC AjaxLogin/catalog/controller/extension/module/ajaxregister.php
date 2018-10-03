@@ -13,39 +13,6 @@ class ControllerExtensionModuleAjaxregister extends Controller {
 
         $this->load->model('account/customer');
 
-        $data['heading_title'] = $this->language->get('heading_title');
-
-        $data['text_account_already'] = $this->language->get('text_account_already');
-        $data['text_your_details'] = $this->language->get('text_your_details');
-        $data['text_your_address'] = $this->language->get('text_your_address');
-        $data['text_your_password'] = $this->language->get('text_your_password');
-        $data['text_newsletter'] = $this->language->get('text_newsletter');
-        $data['text_yes'] = $this->language->get('text_yes');
-        $data['text_no'] = $this->language->get('text_no');
-        $data['text_select'] = $this->language->get('text_select');
-        $data['text_none'] = $this->language->get('text_none');
-        $data['text_loading'] = $this->language->get('text_loading');
-
-        $data['entry_customer_group'] = $this->language->get('entry_customer_group');
-        $data['entry_firstname'] = $this->language->get('entry_firstname');
-        $data['entry_lastname'] = $this->language->get('entry_lastname');
-        $data['entry_email'] = $this->language->get('entry_email');
-        $data['entry_telephone'] = $this->language->get('entry_telephone');
-        $data['entry_fax'] = $this->language->get('entry_fax');
-        $data['entry_company'] = $this->language->get('entry_company');
-        $data['entry_address_1'] = $this->language->get('entry_address_1');
-        $data['entry_address_2'] = $this->language->get('entry_address_2');
-        $data['entry_postcode'] = $this->language->get('entry_postcode');
-        $data['entry_city'] = $this->language->get('entry_city');
-        $data['entry_country'] = $this->language->get('entry_country');
-        $data['entry_zone'] = $this->language->get('entry_zone');
-        $data['entry_newsletter'] = $this->language->get('entry_newsletter');
-        $data['entry_password'] = $this->language->get('entry_password');
-        $data['entry_confirm'] = $this->language->get('entry_confirm');
-
-        $data['button_continue'] = $this->language->get('button_continue');
-        $data['button_upload'] = $this->language->get('button_upload');
-
         $data['action'] = $this->url->link('extension/module/ajaxregister', '', true);
 
         $data['customer_groups'] = array();
@@ -156,9 +123,16 @@ class ControllerExtensionModuleAjaxregister extends Controller {
             $data['agree'] = false;
         }
 
+        if (!empty($_SERVER['HTTPS'])) {
+            // SSL connection
+            $base_url = str_replace('http://', 'https://', $this->config->get('config_url'));
+        } else {
+            $base_url = $this->config->get('config_url');
+        }
+        
         $loader_img = $this->config->get('module_ocajaxlogin_loader_img');
         if($loader_img) {
-            $data['loader_img'] = $this->config->get('config_url') . 'image/' . $loader_img;
+            $data['loader_img'] = $base_url . 'image/' . $loader_img;
         }
 
         return $this->load->view('extension/module/ocajaxlogin/ajaxregister', $data);
@@ -315,8 +289,6 @@ class ControllerExtensionModuleAjaxregister extends Controller {
                 $this->error['warning'] = sprintf($this->language->get('error_agree'), $information_info['title']);
             }
         }
-
-        var_dump($this->error);
 
         return !$this->error;
     }

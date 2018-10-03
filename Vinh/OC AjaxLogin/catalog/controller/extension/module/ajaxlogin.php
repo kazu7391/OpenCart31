@@ -69,9 +69,16 @@ class ControllerExtensionModuleAjaxlogin extends Controller {
             $data['password'] = '';
         }
 
+        if (!empty($_SERVER['HTTPS'])) {
+            // SSL connection
+            $base_url = str_replace('http://', 'https://', $this->config->get('config_url'));
+        } else {
+            $base_url = $this->config->get('config_url');
+        }
+
         $loader_img = $this->config->get('module_ocajaxlogin_loader_img');
         if($loader_img) {
-            $data['loader_img'] = $this->config->get('config_url') . 'image/' . $loader_img;
+            $data['loader_img'] = $base_url . 'image/' . $loader_img;
         }
 
         return $this->load->view('extension/module/ocajaxlogin/ajaxlogin', $data);

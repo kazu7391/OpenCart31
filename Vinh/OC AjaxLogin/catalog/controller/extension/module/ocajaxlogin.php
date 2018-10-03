@@ -20,9 +20,16 @@ class ControllerExtensionModuleOcajaxlogin extends Controller {
             $data['enable_redirect'] = false;
         }
 
+        if (!empty($_SERVER['HTTPS'])) {
+            // SSL connection
+            $base_url = str_replace('http://', 'https://', $this->config->get('config_url'));
+        } else {
+            $base_url = $this->config->get('config_url');
+        }
+
         $loader_img = $this->config->get('module_ocajaxlogin_loader_img');
         if($loader_img) {
-            $data['loader_img'] = $this->config->get('config_url') . 'image/' . $loader_img;
+            $data['loader_img'] = $base_url . 'image/' . $loader_img;
         }
 
         if (file_exists('catalog/view/theme/' . $this->config->get('config_template') . '/stylesheet/opentheme/ocajaxlogin/css/ocajaxlogin.css')) {
