@@ -2,34 +2,32 @@
 <div id="content">
     <div class="page-header">
         <div class="container-fluid">
-            <div class="pull-right">
-                <a href="{{ list_action }}" data-toggle="tooltip" title="{{ button_article_list }}" class="btn btn-default"><i class="fa fa-pencil-square-o"></i></a>
-                <button type="submit" form="form-blog" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
-                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+            <div class="float-right">
+                <a href="{{ list_action }}" data-toggle="tooltip" title="{{ button_article_list }}" class="btn btn-light"><i class="fas fa-pencil-alt"></i></a>
+                <button type="submit" form="form-blog" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fas fa-save"></i></button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-light"><i class="fas fa-reply"></i></a>
             </div>
             <h1>{{ heading_title }}</h1>
             <ul class="breadcrumb">
                 {% for breadcrumb in breadcrumbs %}
-                    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
                 {% endfor %}
             </ul>
         </div>
     </div>
     <div class="container-fluid">
         {% if error_warning %}
-        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-        </div>
-        {% endif %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
+            <div class="alert alert-danger alert-dismissible"><i class="fas fa-exclamation-circle"></i> {{ error_warning }}
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
             </div>
-            <div class="panel-body">
-                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-blog" class="form-horizontal">
+        {% endif %}
+        <div class="card">
+            <div class="card-header"><i class="fas fa-pencil-alt"></i> {{ text_edit }}</div>
+            <div class="card-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-blog">
                     <fieldset>
-                          <div class="form-group required">
-                            <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+                          <div class="form-group row required">
+                            <label class="col-sm-2 col-form-label" for="input-name">{{ entry_name }}</label>
                             <div class="col-sm-10">
                               <input type="text" name="name" value="{{ name }}" placeholder="{{ entry_name }}" id="input-name" class="form-control" />
                               {% if error_name %}
@@ -37,8 +35,8 @@
                               {% endif %}
                             </div>
                           </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="input-status">{{ entry_status }}</label>
                             <div class="col-sm-10">
                                 <select name="status" id="input-status" class="form-control">
                                     {% if status %}
@@ -51,8 +49,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="input-list">{{ entry_article_list }}</label>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="input-list">{{ entry_article_list }}</label>
                             <div class="col-sm-10">
                                 <select name="list" id="input-list" class="form-control">
                                 {% if article_lists %}
@@ -71,8 +69,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group required">
-                            <label class="col-sm-2 control-label" for="input-width">{{ entry_width }}</label>
+                        <div class="form-group row required">
+                            <label class="col-sm-2 col-form-label" for="input-width">{{ entry_width }}</label>
                             <div class="col-sm-10">
                                 <input type="text" name="width" value="{{ width }}" placeholder="{{ entry_width }}" id="input-width" class="form-control" />
                                 {% if error_width %}
@@ -81,8 +79,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group required">
-                            <label class="col-sm-2 control-label" for="input-height">{{ entry_height }}</label>
+                        <div class="form-group row required">
+                            <label class="col-sm-2 col-form-label" for="input-height">{{ entry_height }}</label>
                             <div class="col-sm-10">
                                 <input type="text" name="height" value="{{ height }}" placeholder="{{ entry_height }}" id="input-height" class="form-control" />
                                 {% if error_height %}
@@ -91,8 +89,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="input-auto">{{ entry_auto }}</label>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="input-auto">{{ entry_auto }}</label>
                             <div class="col-sm-10">
                                 <select name="auto" id="input-auto" class="form-control">
                                     {% if auto %}
@@ -106,29 +104,29 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="input-items">{{ entry_items }}</label>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="input-items">{{ entry_items }}</label>
                             <div class="col-sm-10">
                                 <input type="text" name="items" value="{{ items }}" placeholder="{{ entry_items }}" id="input-items" class="form-control" />
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="input-speed">{{ entry_speed }}</label>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="input-speed">{{ entry_speed }}</label>
                             <div class="col-sm-10">
                                 <input type="text" name="speed" value="{{ speed }}" placeholder="{{ entry_speed }}" id="input-speed" class="form-control" />
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="input-rows">{{ entry_rows }}</label>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="input-rows">{{ entry_rows }}</label>
                             <div class="col-sm-10">
                                 <input type="text" name="rows" value="{{ rows }}" placeholder="{{ entry_rows }}" id="input-rows" class="form-control" />
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="input-navigation">{{ entry_navigation }}</label>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="input-navigation">{{ entry_navigation }}</label>
                             <div class="col-sm-10">
                                 <select name="navigation" id="input-navigation" class="form-control">
                                     {% if navigation %}
@@ -142,8 +140,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label" for="input-pagination">{{ entry_pagination }}</label>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label" for="input-pagination">{{ entry_pagination }}</label>
                             <div class="col-sm-10">
                                 <select name="pagination" id="input-pagination" class="form-control">
                                     {% if pagination %}
