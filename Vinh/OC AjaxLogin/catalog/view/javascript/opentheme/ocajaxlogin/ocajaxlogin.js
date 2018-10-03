@@ -73,7 +73,6 @@ var ocajaxlogin = {
                 if(json['success'] == true) {
                     ocajaxlogin.appendSuccess();
                 } else {
-
                     // Error Warning
                     if(json['error_warning'] != '') {
                         $('.error-warning span').html(" " + json['error_warning']);
@@ -101,8 +100,11 @@ var ocajaxlogin = {
                     }
 
                     // Custom Field
-                    if(json['error_custom_field'] != '') {
-                        $('.error-custom').addClass('text-danger').html(json['error_custom_field']).show();
+                    if(json['error_custom_field'].length != 0) {
+                        var custom_field_errors = json['error_custom_field'];
+                        $.each(custom_field_errors, function (index, value) {
+                            $('#custom-field' + index).find('.error-custom').addClass('text-danger').html(value).show();
+                        });
                     }
 
                     // Password
